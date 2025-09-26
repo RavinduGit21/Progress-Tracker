@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header class="toolbar">
+            <h1>Progress Tracker</h1>
+            <div class="actions">
+                <button id="add-row" title="Add row">+ Row</button>
+                <button id="add-col" title="Add column">+ Column</button>
+                <button id="reset" title="Clear all checks">Reset</button>
+                <span class="muted" style="margin-left:12px">Zoom:</span>
+                <button id="zoom-out" title="Zoom out">−</button>
+                <button id="zoom-in" title="Zoom in">+</button>
+                <button id="zoom-reset" title="Reset zoom">100%</button>
+            </div>
+        </header>
+
+        <div class="table-wrap">
+            <table id="tracker" aria-label="Progress tracker table"></table>
+        </div>
+
+        <footer class="hint">
+            <p>
+                Tip: Double‑click any row or column name to edit. Click a cell to toggle a check ✔.
+                Data is saved automatically in your browser.
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <!--
+      This app stores data in localStorage under the key 'progress-tracker-v1'.
+    -->
+</body>
+</html>
+
+
