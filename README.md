@@ -10,6 +10,8 @@ A modern, responsive web application for tracking progress across multiple tasks
 - **Inline Editing**: Double-click row or column headers to rename them
 - **Auto-save**: All data is automatically saved to browser localStorage
 - **Reset Function**: Clear all progress checks with one click
+- **Live Clock**: Real-time clock in the header to keep track of time
+- **Customizable Countdowns**: Two configurable countdowns for important dates
 
 ### 🎨 **User Interface**
 - **Modern Design**: Clean, dark theme with professional styling
@@ -79,6 +81,11 @@ A modern, responsive web application for tracking progress across multiple tasks
 - Click the "✖" button next to any row/column to delete it
 - Use zoom controls to adjust the table size
 
+**Settings:**
+- Click the gear icon (⚙️) to open the settings modal
+- Customize the text and date for both countdown timers
+- Changes are saved automatically to your browser
+
 ### Keyboard Shortcuts
 
 | Action | Shortcut |
@@ -90,8 +97,10 @@ A modern, responsive web application for tracking progress across multiple tasks
 ## Data Storage
 
 The application uses browser localStorage to persist your data:
-- **Storage Key**: `progress-tracker-v1`
-- **Data Format**: JSON object with `rows`, `cols`, and `checks` properties
+- **Storage Keys**: 
+  - `progress-tracker-v1`: Stores the main table data (rows, columns, and checks).
+  - `progress-tracker-countdowns-v1`: Stores the custom countdown settings.
+- **Data Format**: JSON objects
 - **Auto-save**: Changes are saved immediately
 - **Local Only**: Data stays in your browser (not synced to cloud)
 

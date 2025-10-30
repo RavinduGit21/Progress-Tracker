@@ -1,5 +1,6 @@
 (function(){
     const STORAGE_KEY = 'progress-tracker-v1';
+    const COUNTDOWN_STORAGE_KEY = 'progress-tracker-countdowns-v1';
 
     /**
      * Shape in storage:
@@ -294,6 +295,112 @@
         if(!Number.isNaN(z)) userZoom = z;
     }
 
+    // Clock functionality
+    const clockElement = document.getElementById('clock');
+    function updateClock() {
+        if (!clockElement) return;
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock(); // initial call
+
+    // Exam countdown functionality
+    const countdown1Element = document.getElementById('countdown-1');
+    const countdown2Element = document.getElementById('countdown-2');
+
+    function getDefaultCountdowns() {
+        return [
+            { text: 'Days left for Semester 3 Exam', date: '2026-01-26' },
+            { text: 'Days left for Semester 1 Exam', date: '2026-02-07' }
+        ];
+    }
+
+    function loadCountdowns() {
+        try {
+            const raw = localStorage.getItem(COUNTDOWN_STORAGE_KEY);
+            if (!raw) return getDefaultCountdowns();
+            const data = JSON.parse(raw);
+            if (!Array.isArray(data) || data.length !== 2) {
+                return getDefaultCountdowns();
+            }
+            return data;
+        } catch (e) {
+            return getDefaultCountdowns();
+        }
+    }
+
+    function saveCountdowns(countdowns) {
+        localStorage.setItem(COUNTDOWN_STORAGE_KEY, JSON.stringify(countdowns));
+    }
+
+    let countdowns = loadCountdowns();
+
+    function updateExamCountdowns() {
+        const now = new Date();
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        const [cd1, cd2] = countdowns;
+
+        const date1 = new Date(cd1.date);
+        const daysLeft1 = Math.round((date1 - now) / oneDay);
+        if (countdown1Element) {
+            countdown1Element.textContent = `${cd1.text}: ${daysLeft1}`;
+        }
+
+        const date2 = new Date(cd2.date);
+        const daysLeft2 = Math.round((date2 - now) / oneDay);
+        if (countdown2Element) {
+            countdown2Element.textContent = `${cd2.text}: ${daysLeft2}`;
+        }
+    }
+    setInterval(updateExamCountdowns, 1000 * 60 * 60); // Update once an hour
+    updateExamCountdowns(); // initial call
+
+    // Settings Modal
+    const modal = document.getElementById('settings-modal');
+    const settingsBtn = document.getElementById('settings-btn');
+    const closeBtn = document.querySelector('.close-btn');
+    const settingsForm = document.getElementById('settings-form');
+    const countdown1TextInput = document.getElementById('countdown1-text');
+    const countdown1DateInput = document.getElementById('countdown1-date');
+    const countdown2TextInput = document.getElementById('countdown2-text');
+    const countdown2DateInput = document.getElementById('countdown2-date');
+
+    settingsBtn.addEventListener('click', () => {
+        const [cd1, cd2] = loadCountdowns();
+        countdown1TextInput.value = cd1.text;
+        countdown1DateInput.value = cd1.date;
+        countdown2TextInput.value = cd2.text;
+        countdown2DateInput.value = cd2.date;
+        modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    settingsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newCountdowns = [
+            { text: countdown1TextInput.value, date: countdown1DateInput.value },
+            { text: countdown2TextInput.value, date: countdown2DateInput.value }
+        ];
+        saveCountdowns(newCountdowns);
+        countdowns = newCountdowns;
+        updateExamCountdowns();
+        modal.style.display = 'none';
+    });
+
     // Wire buttons
     document.getElementById('add-row').addEventListener('click', addRow);
     document.getElementById('add-col').addEventListener('click', addColumn);
@@ -310,5 +417,3 @@
     loadZoom();
     render();
 })();
-
-

@@ -13,6 +13,7 @@
     <div class="app">
         <header class="toolbar">
             <h1>Progress Tracker</h1>
+            <div id="clock" class="clock"></div>
             <div class="actions">
                 <button id="add-row" title="Add row">+ Row</button>
                 <button id="add-col" title="Add column">+ Column</button>
@@ -23,6 +24,12 @@
                 <button id="zoom-reset" title="Reset zoom">100%</button>
             </div>
         </header>
+
+        <div class="exam-countdown">
+            <p id="countdown-1"></p>
+            <p id="countdown-2"></p>
+            <button id="settings-btn" class="icon-btn" title="Settings">⚙️</button>
+        </div>
 
         <div class="table-wrap">
             <table id="tracker" aria-label="Progress tracker table"></table>
@@ -36,11 +43,36 @@
         </footer>
     </div>
 
+    <div id="settings-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Countdown Settings</h2>
+            <form id="settings-form">
+                <div class="form-group">
+                    <label for="countdown1-text">Countdown 1 Text</label>
+                    <input type="text" id="countdown1-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="countdown1-date">Countdown 1 Date</label>
+                    <input type="date" id="countdown1-date" required>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="countdown2-text">Countdown 2 Text</label>
+                    <input type="text" id="countdown2-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="countdown2-date">Countdown 2 Date</label>
+                    <input type="date" id="countdown2-date" required>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <!--
       This app stores data in localStorage under the key 'progress-tracker-v1'.
     -->
 </body>
 </html>
-
-
