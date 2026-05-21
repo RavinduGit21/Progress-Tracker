@@ -4,6 +4,13 @@ html,body{height:100%}
 body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .app{max-width:980px;margin:24px auto;padding:0 16px;min-height:100vh;display:flex;flex-direction:column}
 .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.title-area{display:flex;align-items:center;gap:16px}
+.select-wrapper{position:relative}
+#semester-select{appearance:none;-webkit-appearance:none;background:rgba(31,41,55,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(75,85,99,0.4);color:var(--text);padding:8px 36px 8px 16px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;outline:none;transition:all 0.2s ease;font-family:inherit}
+#semester-select:hover{background:rgba(39,48,66,0.8);border-color:rgba(99,102,241,0.6);box-shadow:0 0 10px rgba(99,102,241,0.25)}
+#semester-select:focus{border-color:#6366f1;box-shadow:0 0 12px rgba(99,102,241,0.4)}
+.select-wrapper::after{content:"▼";font-size:10px;color:var(--muted);position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;transition:color 0.2s ease}
+.select-wrapper:hover::after{color:#6366f1}
 .toolbar h1{font-size:20px;margin:0;font-weight:600}
 .clock{font-size:18px;font-weight:600;color:var(--muted);margin-left:16px}
 .actions button{background:#1f2937;color:var(--text);border:1px solid #374151;border-radius:8px;padding:8px 12px;margin-left:8px;cursor:pointer}
@@ -12,7 +19,7 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetic
 .exam-countdown{background:var(--panel);padding:12px 16px;border-radius:8px;margin-bottom:12px;border:1px solid var(--line)}
 .exam-countdown p{margin:4px 0;font-size:14px;color:var(--muted)}
 #settings-btn{position:absolute;top:8px;right:8px}
-.table-wrap{overflow:hidden;border:1px solid var(--line);border-radius:10px;flex:1;position:relative}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;flex:1;position:relative}
 /* Scaled table to avoid scrollbars */
 table{transform-origin:top left}
 
@@ -21,11 +28,22 @@ table{transform-origin:top left}
 .icon-btn:hover{background:#2f3e59}
 .header-flex{display:flex;align-items:center;justify-content:center;gap:6px}
 .row-header{display:flex;align-items:center;justify-content:space-between;gap:6px}
-table{width:100%;border-collapse:separate;border-spacing:0}
-thead th, tbody th{position:sticky;left:0;background:#1f2937;color:var(--text);z-index:1}
-th, td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 10px;text-align:center;min-width:110px}
-tbody th{font-weight:600;text-align:left}
-thead th{top:0;position:sticky;background:#162032;z-index:2}
+table{width:max-content;border-collapse:separate;border-spacing:0}
+th, td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 10px;text-align:center;box-sizing:border-box}
+
+/* First Column - Sticky Left */
+thead th:first-child, tbody th{position:sticky;left:0;min-width:220px;max-width:220px;width:220px;box-sizing:border-box}
+tbody th{z-index:2;background:#1f2937;font-weight:600;text-align:left}
+thead th:first-child{z-index:4;background:#162032}
+
+/* Header Cells (sticky top) */
+thead th{top:0;position:sticky;background:#162032;z-index:3}
+
+/* Day Columns & Cells */
+th.col-name, td.cell{min-width:110px;max-width:110px;width:110px}
+
+/* Quick Add Columns */
+thead th:last-child, tbody td:last-child{min-width:80px;max-width:80px;width:80px}
 tr:first-child th:first-child{border-top-left-radius:10px}
 tr:first-child th:last-child{border-top-right-radius:10px}
 tr:last-child td:first-child{border-bottom-left-radius:10px}
@@ -39,12 +57,152 @@ tr:last-child td:first-child{border-bottom-left-radius:10px}
 
 /* Modal Styles */
 .modal{position:fixed;z-index:10;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6)}
-.modal-content{background-color:var(--panel);margin:15% auto;padding:20px;border:1px solid var(--line);width:80%;max-width:500px;border-radius:10px;position:relative}
-.close-btn{color:#aaa;float:right;font-size:28px;font-weight:bold;cursor:pointer}
+.modal-content{background-color:var(--panel);margin:10% auto;padding:24px;border:1px solid var(--line);width:90%;max-width:680px;border-radius:10px;position:relative}
+.close-btn{color:#aaa;float:right;font-size:28px;font-weight:bold;cursor:pointer;line-height:1;margin-top:-5px}
 .close-btn:hover,.close-btn:focus{color:var(--text);text-decoration:none}
 .form-group{margin-bottom:15px}
 .form-group label{display:block;margin-bottom:5px;font-weight:600}
 .form-group input{width:100%;padding:8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
-#settings-form button{background:#1f2937;color:var(--text);border:1px solid #374151;border-radius:8px;padding:10px 15px;cursor:pointer;width:100%}
-#settings-form button:hover{background:#273042}
+#settings-form button{background:#1f2937;color:var(--text);border:1px solid #374151;border-radius:8px;padding:10px 15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;transition:all 0.2s ease;}
+#settings-form button:hover{background:#273042;border-color:#4b5563;}
 hr{border:none;border-top:1px solid var(--line);margin:20px 0}
+
+/* Settings Modal Grid Adjustments */
+.settings-grid {
+    display: flex;
+    gap: 24px;
+    margin-top: 15px;
+}
+.settings-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.vertical-divider {
+    width: 1px;
+    background: var(--line);
+    align-self: stretch;
+}
+.semester-list-wrap {
+    max-height: 160px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 6px;
+}
+.semester-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.semester-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    background: rgba(31, 41, 55, 0.4);
+    border: 1px solid rgba(75, 85, 99, 0.1);
+    transition: all 0.2s ease;
+}
+.semester-list li:hover {
+    background: rgba(31, 41, 55, 0.8);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+.semester-list li.active {
+    border-color: rgba(99, 102, 241, 0.6);
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: inset 0 0 8px rgba(99,102,241,0.1);
+}
+.semester-list li span {
+    font-size: 14px;
+    font-weight: 600;
+}
+.semester-list li .delete-sem-btn {
+    border: none;
+    background: transparent;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.semester-list li .delete-sem-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    transform: scale(1.15);
+}
+.semester-list li.archived {
+    opacity: 0.55;
+    background: rgba(15, 23, 42, 0.2);
+    border-style: dashed;
+}
+.semester-list li.archived span {
+    font-style: italic;
+    color: var(--muted);
+}
+.semester-list li .archive-sem-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.semester-list li .archive-sem-btn:hover {
+    background: rgba(99, 102, 241, 0.15);
+    transform: scale(1.15);
+}
+
+.countdown-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.countdown-list-container p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+}
+.countdown-list-container strong {
+    color: var(--text);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.checkbox-group input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    accent-color: #6366f1;
+    cursor: pointer;
+}
+.checkbox-group label {
+    margin: 0 !important;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: normal !important;
+}
+
+@media (max-width: 768px) {
+    .settings-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .vertical-divider {
+        display: none;
+    }
+    .modal-content {
+        margin: 5% auto;
+        padding: 16px;
+    }
+}

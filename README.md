@@ -4,27 +4,28 @@ A modern, responsive web application for tracking progress across multiple tasks
 
 ## Features
 
-### 🎯 **Core Functionality**
+### 🎓 **Multi-Semester Management**
+- **Dynamic Semester Boards**: Add custom semesters (e.g. Semester 5) or delete them safely with built-in empty state protection locks.
+- **Archive Semesters (Task 2)**: Fling older semesters into an archive 📦 to hide them from the active menu, keeping the main dropdown clear while preserving all ticks and study records safely. Unarchive 📤 anytime!
+- **Consistent Sizing System**: Subject and Day columns use standardized fixed dimensions across all semesters, ensuring perfect layout alignment when zooming or switching views.
+
+### 🎯 **Core Grid Functionality**
 - **Interactive Grid**: Click any cell to toggle progress checks (✔)
-- **Dynamic Rows & Columns**: Add/remove rows and columns on the fly
-- **Inline Editing**: Double-click row or column headers to rename them
-- **Auto-save**: All data is automatically saved to browser localStorage
-- **Reset Function**: Clear all progress checks with one click
-- **Live Clock**: Real-time clock in the header to keep track of time
-- **Customizable Countdowns**: Two configurable countdowns for important dates
+- **Dynamic Rows & Columns**: Add or remove rows (subjects) and columns (study days) instantly.
+- **Inline Editing**: Double-click any row or column header to rename them with ease.
+- **Reset Function**: Clear all progress checks inside the active semester with a single click.
 
-### 🎨 **User Interface**
-- **Modern Design**: Clean, dark theme with professional styling
-- **Responsive Layout**: Works seamlessly on desktop and mobile devices
-- **Zoom Controls**: Adjust table zoom level (25% - 200%)
-- **Auto-fit**: Table automatically scales to fit your viewport
-- **Sticky Headers**: Row and column headers remain visible while scrolling
+### ⏰ **Dynamic Countdowns & Settings**
+- **Per-Semester Settings**: Configure custom exam target dates and countdown titles separately for every semester tracker in the settings panel.
+- **Smart Countdown Banner**: The header banner dynamically aggregates countdowns for all configured semesters in real-time.
+- **Visibility Toggle**: Hide/show countdown timers in the header banner on a per-semester basis—ideal for hiding completed semesters (e.g., negative day counts) without losing settings.
+- **Live Digital Clock**: Real-time high-fidelity digital clock in the header toolbar.
 
-### ⚡ **Smart Features**
-- **Intelligent Naming**: New columns automatically follow "Day X" pattern
-- **Quick Actions**: Add rows/columns directly from the table
-- **Delete Controls**: Remove rows/columns with dedicated delete buttons
-- **Keyboard Support**: Press Enter to save edits, Escape to cancel
+### 🎨 **Responsive UI & Sizing**
+- **Modern Aesthetics**: curating a sleek, dark glassmorphic design system using harmony-driven color schemes and micro-interactions.
+- **Auto-Fit Viewport**: The grid automatically scales using CSS transform properties to fit perfectly inside your screen layout with zero horizontal overflow at default zoom.
+- **Premium Zoom Controls**: Fully custom zoom out (−), zoom in (+), and zoom reset buttons featuring a dynamic real-time percentage scale indicator (e.g., `45%`, `100%`, `125%`).
+- **Sticky Headers**: Subject columns and Day headers stay locked in position during scrolling for easy navigation.
 
 ## Getting Started
 
@@ -94,15 +95,16 @@ A modern, responsive web application for tracking progress across multiple tasks
 | Cancel edit | Escape |
 | Select all text | Ctrl+A (when editing) |
 
-## Data Storage
+## 🔒 Privacy & Local-First Storage (GitHub Safe)
 
-The application uses browser localStorage to persist your data:
-- **Storage Keys**: 
-  - `progress-tracker-v1`: Stores the main table data (rows, columns, and checks).
-  - `progress-tracker-countdowns-v1`: Stores the custom countdown settings.
-- **Data Format**: JSON objects
-- **Auto-save**: Changes are saved immediately
-- **Local Only**: Data stays in your browser (not synced to cloud)
+This application is architected as a **local-first** client-side application:
+- **Zero Cloud Sync / Zero Database Server**: Your study schedules, checkboxes, custom semester lists, renamed rows/columns, and countdown configurations never leave your machine.
+- **100% GitHub Clean & Private**: When you push your code to GitHub or when someone else clones your repository, **none of your personal study data is committed or shared**.
+- **Fresh Startup for Others**: A new user cloning the repository and opening the `index.html` file will see a completely fresh, un-ticked default template, as their browser's local storage is empty.
+- **How It Works (Storage Details)**:
+  - All data is saved inside your browser's local sandbox under the key `progress-tracker-v1` (with automatic backward-compatible migration from legacy keys).
+  - Stored data is kept in a clean, structured JSON format.
+  - Autosaves instantly on every check, edit, delete, or setting modification.
 
 ## File Structure
 

@@ -12,7 +12,14 @@
 <body>
     <div class="app">
         <header class="toolbar">
-            <h1>Progress Tracker</h1>
+            <div class="title-area">
+                <h1>Progress Tracker</h1>
+                <div class="select-wrapper">
+                    <select id="semester-select" aria-label="Select Semester">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+            </div>
             <div id="clock" class="clock"></div>
             <div class="actions">
                 <button id="add-row" title="Add row">+ Row</button>
@@ -26,8 +33,8 @@
         </header>
 
         <div class="exam-countdown">
-            <p id="countdown-1"></p>
-            <p id="countdown-2"></p>
+            <!-- Populated dynamically with configured countdowns -->
+            <div id="countdown-list" class="countdown-list-container"></div>
             <button id="settings-btn" class="icon-btn" title="Settings">⚙️</button>
         </div>
 
@@ -46,27 +53,54 @@
     <div id="settings-modal" class="modal" style="display:none;">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <h2>Countdown Settings</h2>
-            <form id="settings-form">
-                <div class="form-group">
-                    <label for="countdown1-text">Countdown 1 Text</label>
-                    <input type="text" id="countdown1-text" required>
+            <h2 style="margin-top:0; margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:10px;">Settings</h2>
+            
+            <div class="settings-grid">
+                <!-- Active Semester Countdown Configuration -->
+                <div class="settings-col">
+                    <h3 style="margin-top:0; color:#cbd5e1;">Active Semester Config</h3>
+                    <p class="muted" style="font-size:12px; margin-bottom:15px; line-height: 1.4;">Configure the exam countdown label and date for the active semester (<strong id="active-sem-label" style="color:var(--text)"></strong>):</p>
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label for="active-exam-text" style="font-size:13px; color:var(--muted);">Countdown Label</label>
+                            <input type="text" id="active-exam-text" placeholder="e.g., Days left for Semester 3 Exam" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="active-exam-date" style="font-size:13px; color:var(--muted);">Exam Date</label>
+                            <input type="date" id="active-exam-date">
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="active-show-countdown">
+                            <label for="active-show-countdown">Show countdown in header banner</label>
+                        </div>
+                        <button type="submit" id="save-active-settings" style="background:#10b981; color:#fff; border:none; margin-top:10px;">Save Exam Date</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="countdown1-date">Countdown 1 Date</label>
-                    <input type="date" id="countdown1-date" required>
+                
+                <div class="vertical-divider"></div>
+                
+                <!-- Semester Manager (Add / Delete) -->
+                <div class="settings-col">
+                    <h3 style="margin-top:0; color:#cbd5e1;">Manage Semesters</h3>
+                    <p class="muted" style="font-size:12px; margin-bottom:15px; line-height: 1.4;">Create a new semester tracker or permanently delete an existing one:</p>
+                    
+                    <div class="semester-list-wrap">
+                        <ul id="semester-list" class="semester-list">
+                            <!-- Populated dynamically via JS -->
+                        </ul>
+                    </div>
+                    
+                    <form id="add-semester-form" style="margin-top: 15px;">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label for="new-sem-name" style="font-size:13px; color:var(--muted);">Create New Semester</label>
+                            <div class="flex-row" style="display:flex; gap:8px; margin-top:5px;">
+                                <input type="text" id="new-sem-name" placeholder="e.g., Semester 5" required style="flex:1;">
+                                <button type="submit" class="btn-accent" style="background:#6366f1; color:#fff; border:none; width:40px; padding:0; font-size:18px; font-weight:bold; border-radius:6px; cursor:pointer;">+</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <hr>
-                <div class="form-group">
-                    <label for="countdown2-text">Countdown 2 Text</label>
-                    <input type="text" id="countdown2-text" required>
-                </div>
-                <div class="form-group">
-                    <label for="countdown2-date">Countdown 2 Date</label>
-                    <input type="date" id="countdown2-date" required>
-                </div>
-                <button type="submit">Save</button>
-            </form>
+            </div>
         </div>
     </div>
 
